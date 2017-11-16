@@ -6,6 +6,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+
+		<script src="assets/js/jquery.min.js"></script>
 	</head>
 	<body>
 
@@ -90,7 +92,7 @@
 									</div>
 									<div class="12u$">
 										<ul class="actions">
-											<li><input type="submit" value="Enviar" class="special" /></li>
+											<li><input type="button" value="Enviar" id="enviar" class="special" /></li>
 											<li><input type="reset" value="Apagar tudo" /></li>
 										</ul>
 									</div>
@@ -125,3 +127,27 @@
 
 	</body>
 </html>
+
+<script>
+	$(function() {
+		$('#enviar').on('click', function() {
+			$.ajax({
+				url: "http://127.0.0.1:5000/api/subscriptions",
+				method: "POST",
+				dataType: "json",
+				cache : false,
+				data: $("form").serialize(),
+				success: function(json) {
+					var retorno = json.retorno
+					if (retorno != null && retorno != '') {
+						console.log(retorno);
+						alert('Inscrição realizada com sucesso!');
+					}
+					/*$.each(json.retorno, function(i, value) {
+						console.log('texto do serviço: ' + value.nome);
+					})*/
+				}
+			});
+		});
+	});
+</script>
